@@ -1,5 +1,7 @@
 package com.hoon.blog.test;
 
+import java.util.function.Supplier;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +26,14 @@ public class DummyControllerTest {
 	public User detail(@PathVariable int id) {
 		//user/4가 DB에에서 못찾는다면 user가 null로 return은 null을 하게되므로 문제가 생길 수 있다.
 		//Optional로 User객체를 감싸서 가져올테니 null인지 아닌지 판단해서 return하라
-		User user=userRepository.findById(id);
+		User user=userRepository.findById(id).orElseGet(new Supplier<User>() {
+			@Override
+			public User get() {
+				// TODO Auto-generated method stub
+				return new User();
+			}
+		}); //.get() user객체를 optional에서 뽑아줌
+		
 		return user;
 	}
 	
