@@ -1,6 +1,38 @@
+server:
+  port: 8000
+  servlet:
+    context-path: /blog
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+      
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+      
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
     username: hoon
     password: hoon1234
+    
+  jpa:
+    open-in-view: true
+    hibernate:
+      #최초에만 create로 이후 update로 수정
+      ddl-auto: update
+      naming:
+      #변수명 그대로 테이블을 만든다. 만드는 규칙을 정해줌
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        "[format_sql]": true
+        use-new-id-generator-mappings:  false
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
